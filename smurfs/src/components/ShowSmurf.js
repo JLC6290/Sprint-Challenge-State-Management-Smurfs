@@ -12,13 +12,19 @@ const ShowSmurf = props => {
     useEffect(() => {
         props.fetchSmurf();
     }, [])
-
+    console.log("ShowSmurf Props: ", props);
     return (
+        // {console.log(props)}
         <div>
-            {console.log("This is ShowSmurf: ", smurf)}
-            <p>{props.name}</p>
-            <p>{props.age}</p>
-            <p>{props.height}</p>
+            {props.smurfs && props.smurfs.map(function(smurf, smurfIndex) {
+                    return (
+                        <div key={smurfIndex}>
+                            <p>Name: {smurf.name}</p>
+                            <p>Age: {smurf.age}</p>
+                            <p>Height: {smurf.height}</p>
+                        </div>
+                    )
+            })}
         </div>
     )
 }
@@ -26,9 +32,7 @@ const ShowSmurf = props => {
 const mapStateToProps = state => {
     console.log("ShowSmurf mapStateToProps: ",state);
     return {
-        name: state.smurfReducer.name,
-        age: state.smurfReducer.age,
-        height: state.smurfReducer.height,
+        smurfs: state.smurfReducer.smurfs,
         isFetching: state.smurfReducer.isFetching,
         error: state.smurfReducer.error
     };

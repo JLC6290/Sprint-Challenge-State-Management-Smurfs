@@ -1,9 +1,11 @@
 const initialState = {
-    name: "James",
-    age: "29",
-    height: "6",
-    id: "2",
-    isFetching: false
+    smurfs: [{
+        name: "James",
+        age: "29",
+        height: "6"
+    }],
+    isFetching: false,
+    error: ""
 }
 
 export const smurfReducer = (state = initialState, action) => {
@@ -25,6 +27,12 @@ export const smurfReducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: action.payload
+            }
+        case "ADD_SMURF_SUCCESS":
+            return {
+                ...state,
+                isFetching: false,
+                smurfs: action.payload
             }
             return state;
     }

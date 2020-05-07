@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { addSmurf } from '../store/actions/smurfAction';
 
 const AddSmurf = props => {
     console.log("AddSmurf props: ", props)
@@ -10,13 +11,29 @@ const AddSmurf = props => {
         height: ""
     })
 
-    const formSubmit = event => {
-        console.log("event: ", event);
-        const newFormData = {
+    const handleChanges = event => {
+        console.log("event.target.name: ",event.target.name);
+        setFormState({ 
             ...formState,
-        }
-        setFormState(newFormData);
-        console.log("InputChange updated formState", formState)
+            [event.target.name]: event.target.value
+        })
+        console.log("handleChanges after setFormState: ", formState)
+    }
+
+    const formSubmit = event => {
+        event.preventDefault();
+        console.log("event: ", event);
+        // const newFormData = {
+        //     ...formState,
+        // }
+        // setFormState(newFormData);
+        // console.log("InputChange updated formState", formState)
+        props.addSmurf(formState);
+        setFormState({
+            name: "",
+            age: "",
+            height: ""
+        })
     }
 
     return (
@@ -28,6 +45,7 @@ const AddSmurf = props => {
                         type="text"
                         name="name"
                         value={formState.name}
+                        onChange={handleChanges}
                     />
                 </label>
                 <br />
@@ -37,6 +55,7 @@ const AddSmurf = props => {
                         type="text"
                         name="age"
                         value={formState.age}
+                        onChange={handleChanges}
                     />
                 </label>
                 <br />
@@ -46,6 +65,7 @@ const AddSmurf = props => {
                         type="text"
                         name="height"
                         value={formState.height}
+                        onChange={handleChanges}
                     />
                 </label>
                 <br />
@@ -55,7 +75,7 @@ const AddSmurf = props => {
     )
 }
 const mapStateToProps = state => {
-    console.log()
+    console.log("State mapped to AddSmurf: ", state);
     return {
         name: state.smurfReducer.name,
         age: state.smurfReducer.age,
@@ -65,4 +85,4 @@ const mapStateToProps = state => {
     };
 }
 
-export default connect(mapStateToProps, {})(AddSmurf);
+export default connect(mapStateToProps, { addSmurf })(AddSmurf);
